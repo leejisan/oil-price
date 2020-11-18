@@ -3,6 +3,11 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import numpy as np
 import seaborn as sns
+import matplotlib.colors as mcolors
+from sklearn.cluster import KMeans
+from scipy.spatial.distance import cdist
+
+plt.rcParams['figure.figsize'] = [20, 16]
 
 class Oil:
     def __init__(self):
@@ -30,16 +35,21 @@ class Oil:
     def get_sigungu(self,string):
         return self.sigungu
     
+    def cluster(self):
+        kmeans = KMeans(n_clusters=3).fit(self.data[['휘발유','경유']].values)
+        self.data['클러스터'] = kmeans.labels_
+    
     def draw_plot(self):
         loc_array = list(self.data.groupby([self.standard]).groups.keys())
-        X = self.data.loc[self.data.groupby([self.standard]).groups[loc_array[0]]]
-        X.reset_index(drop=True,inplace=True)
-        plt.scatter(X[:]['경유'],X[:]['휘발유'],c='black',label='충북', s=10)
-        plt.xlabel('경유 가격(원)')
-        plt.ylabel('휘발유 가격(원)')
-        plt.title('기름값 분포')
-        plt.grid(False)
-        plt.legend()
+        for i in range(0,5):
+            X = self.data.loc[self.data.groupby([self.standard]).groups[loc_array[i]]]
+            X.reset_index(drop=True,inplace=True)
+            plt.scatter(X[:]['경유'],X[:]['휘발유'],label=loc_array[i], s=10)
+            plt.xlabel('경유 가격(원)')
+            plt.ylabel('휘발유 가격(원)')
+            plt.title('기름값 분포')
+            plt.grid(False)
+            plt.legend()
             
     def show_plot(self):
         return plt.show()
