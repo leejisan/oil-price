@@ -1,26 +1,16 @@
 import pandas as pd
-import matplotlib.pyplot as plt
-import matplotlib as mpl
 import numpy as np
-import seaborn as sns
-import matplotlib.colors as mcolors
+import plotly.graph_objects as go
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
+from plotly.offline import plot
 
 class Oil:
     def __init__(self):
-        self.data = self.temp_data = pd.read_csv('refined_data/data.csv', encoding='ansi')
+        self.data = pd.read_csv('refined_data/data.csv', encoding='ansi')
         self.standard = ''
         self.do = ''
         self.sigungu = ''
-        sns.set(font='Gulim', font_scale=1)
-        plt.rcParams['figure.figsize'] = [16, 10]
-        
-    def set_columns(self,arr):
-        self.temp_data = self.data[arr]
-        
-    def get_columns(self):
-        return list(self.temp_data.columns)
         
     def set_standard(self,string):
         self.standard = string
@@ -41,41 +31,28 @@ class Oil:
         return self.sigungu
     
     def cluster(self):
-        kmeans = KMeans(n_clusters=3).fit(self.data[['경유','휘발유']].values)
-        self.temp_data['클러스터'] = kmeans.labels_
-        
-    def elbow(self):
-        X = self.temp_data[['경유','휘발유']].values
-        sse = []
-        for i in range(1,11):
-            km = KMeans(n_clusters=i,algorithm='auto', random_state=42)
-            km.fit(X)
-            sse.append(km.inertia_)
-        plt.plot(range(1,11), sse, marker='o')
-        plt.xlabel('K')
-        plt.ylabel('SSE')
-        plt.show()
-
+        kmeans = KMeans(n_clusters=3).fit(self.data[['휘발유','경유']].values)
+        self.data['클러스터'] = kmeans.labels_
+    
     def draw_plot(self):
-        data = self.data[['기간','휘발유','경유','클러스터']]
-        loc_array = list(data.groupby([self.standard]).groups.keys())[0:10]
-        for i in loc_array:
-            X = data.loc[data.groupby([self.standard]).groups[i]]
+        loc_array = list(self.data.groupby([self.standard]).groups.keys())
+        fig = go.Figure()
+        for i in range(0,5):
+            X = self.data.loc[self.data.groupby([self.standard]).groups[loc_array[i]]]
+            X.drop_duplicates(['경유','휘발유'],inplace=True)
             X.reset_index(drop=True,inplace=True)
-            for cluster in range(0,3):
-                X = X[X['클러스터'] == cluster]
-                X.reset_index(drop=True,inplace=True)
-                plt.scatter(X[:]['경유'].astype(str),X[:]['휘발유'].astype(str),label=cluster, s=10)
-                plt.xlabel('경유 가격(원)')
-                plt.ylabel('휘발유 가격(원)')
-                plt.title('하루간의 경유가격 분포')
-                plt.grid(False)
-
+            x = pd.to_datetime(X[:]['기간'], format='%Y%m%d')
+            y = X[:]['경유']
+            z = X[:]['휘발유']
+            fig.add_trace(
+                go.Scatter3d(x=x,y=y,z=z,marker=go.scatter3d.Marker(size=3),opacity=0.3,mode='markers')
+            )
+        plot(fig, filename='plotly-3d-scatter-small.html', auto_open=False)
+            
     def show_plot(self):
-        return plt.show()
+        return fig.show()
 
 if __name__ == "__main__":
     oil = Oil()
     oil.set_standard('기간')
     oil.draw_plot()
-    oil.show_plot()
