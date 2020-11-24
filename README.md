@@ -19,4 +19,16 @@
 <br><br><br>
 ## 2.수집한 데이터를 분석에 필요한 형식으로 전처리<br><br>
 ![1](https://user-images.githubusercontent.com/51322546/99348995-3c08ea00-28de-11eb-898b-791be542793c.PNG)  
-<br>필요없는 주석행 제거
+<br>필요없는 주석행 제거<br><br>
+
+![1](https://user-images.githubusercontent.com/51322546/100058814-565a3f00-2e6d-11eb-983e-5fc85a572131.png)  
+<br>
+### 적용된 작업
+* **스케일링 및 필요 컬럼 재정의**
+* **결측치 처리**
+* **데이터 병합**
+* **데이터 자료형 변환**
+
+
+
+
