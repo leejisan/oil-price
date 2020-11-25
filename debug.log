@@ -1,2 +1,12 @@
 [1118/170456.095:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
 [1119/124946.943:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1125/101425.529:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1125/102117.773:ERROR:directory_reader_win.cc(43)] FindFirstFile: 지정된 경로를 찾을 수 없습니다. (0x3)
+[1125/150701.197:ERROR:process_info.cc(329)] VirtualQueryEx: 액세스가 거부되었습니다. (0x5)
+[1125/150701.198:ERROR:process_info.cc(556)] ReadMemoryInfo failed
+[1125/150701.198:ERROR:process_memory_win.cc(39)] Failed to initialize ProcessInfo.
+[1125/150701.198:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: 기존 프로세스에 액세스하려고 했습니다. (0xc000010a)
+[1125/152254.828:ERROR:process_reader_win.cc(123)] NtOpenThread: {액세스 거부} 프로세스가 개체에 액세스를 요구했지만 액세스 권한이 없습니다. (0xc0000022)
+[1125/152254.833:ERROR:exception_snapshot_win.cc(99)] thread ID 32992 not found in process
+[1125/152255.175:ERROR:process_reader_win.cc(123)] NtOpenThread: {액세스 거부} 프로세스가 개체에 액세스를 요구했지만 액세스 권한이 없습니다. (0xc0000022)
+[1125/152255.175:ERROR:exception_snapshot_win.cc(99)] thread ID 31472 not found in process
